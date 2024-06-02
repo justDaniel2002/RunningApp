@@ -1,15 +1,14 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
-import { Slot, Stack } from 'expo-router'
-
-const RootLayout = () => {
+import { Slot } from "expo-router";
+import { NativeBaseProvider } from "native-base";
+import { ThemeProvider } from "@rneui/themed";
+export default function RootLayout() {
   return (
-    <Stack>
-      <Stack.Screen name='index' options={{headerShown: false}}/>
-      
-    </Stack>
-  )
+    <>
+      <NativeBaseProvider>
+        <ThemeProvider>
+          <Slot />
+        </ThemeProvider>
+      </NativeBaseProvider>
+    </>
+  );
 }
-
-export default RootLayout
-

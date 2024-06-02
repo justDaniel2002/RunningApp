@@ -1,18 +1,29 @@
-import { Text, View } from 'react-native'
-import React from 'react'
-import { StatusBar } from 'expo-status-bar'
-import { Link } from 'expo-router'
+import { View, Text, ScrollView, TextInput, Button } from "react-native";
+import React from "react";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import SignUp from "./(auth)/SignUp";
+import LogIn from "./(auth)/LogIn";
+
+const Stack = createNativeStackNavigator();
 
 const App = () => {
   return (
-    <View className='flex-1 items-center justify-center bg-white'>
-      <Text className='text-xl'>Running App</Text>
-      <StatusBar style="auto" />
-      <Link href={"/profile"} style={{color:'blue'}}>Go to profile</Link>
-    </View>
-  )
-}
+    <NavigationContainer independent={true}>
+      <Stack.Navigator>
+      <Stack.Screen
+          name="SignUp"
+          component={SignUp}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="LogIn"
+          component={LogIn}
+          options={{ headerShown: false }}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+};
 
-export default App
-
-
+export default App;
