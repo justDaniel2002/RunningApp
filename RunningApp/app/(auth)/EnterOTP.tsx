@@ -1,9 +1,9 @@
-import { View, Text } from "react-native";
+import { View, Text, TextInput, TouchableOpacity } from "react-native";
 import React, { useRef, useState } from "react";
-import { TextInput } from "react-native-gesture-handler";
 import { LinearGradient } from "expo-linear-gradient";
+import { SafeAreaView } from "react-native-safe-area-context";
 
-export default function EnterOTP() {
+export default function EnterOTP({navigation}:any) {
   const [activeIndex, setActiveIndex] = useState(0);
   const textInputRefs: any = useRef([]);
 
@@ -14,7 +14,7 @@ export default function EnterOTP() {
     }
   };
   return (
-    <View>
+    <SafeAreaView className="pt-20 px-10">
       <Text className="text-sm text-neutral-500 mb-5 text-center">
         Enter OTP code we’ve sent to your email
       </Text>
@@ -22,47 +22,53 @@ export default function EnterOTP() {
         <TextInput
           ref={(input) => (textInputRefs.current[0] = input)}
           returnKeyType="next"
-          onSubmitEditing={handleNextFocus}
+          onChange={handleNextFocus}
           blurOnSubmit={false}
-          className="p-2 my-3 bg-white w-1/12"
+          className="p-2 text-center my-3 bg-white w-10"
         />
         <TextInput
           ref={(input) => (textInputRefs.current[1] = input)}
           returnKeyType="next"
-          onSubmitEditing={handleNextFocus}
+          onChange={handleNextFocus}
           blurOnSubmit={false}
-          className="p-2 my-3 bg-white w-1/12"
+          className="p-2 text-center my-3 bg-white w-10"
         />
         <TextInput
           ref={(input) => (textInputRefs.current[2] = input)}
           returnKeyType="next"
-          onSubmitEditing={handleNextFocus}
+          onChange={handleNextFocus}
           blurOnSubmit={false}
-          className="p-2 my-3 bg-white w-1/12"
+          className="p-2 text-center my-3 bg-white w-10"
         />
         <TextInput
           ref={(input) => (textInputRefs.current[3] = input)}
           returnKeyType="next"
-          onSubmitEditing={handleNextFocus}
+          onChange={handleNextFocus}
           blurOnSubmit={false}
-          className="p-2 my-3 bg-white w-1/12"
+          className="p-2 text-center my-3 bg-white w-10"
         />
         <TextInput
           ref={(input) => (textInputRefs.current[4] = input)}
           returnKeyType="next"
-          onSubmitEditing={handleNextFocus}
+          onChange={handleNextFocus}
           blurOnSubmit={false}
-          className="p-2 my-3 bg-white w-1/12"
+          className="p-2 text-center my-3 bg-white w-10"
         />
       </View>
 
-      <LinearGradient
-        // Button Linear Gradient
-        colors={["#6500e0", "#b000e0"]}
-        className="py-3 mb-5"
+      <TouchableOpacity
+      onPress={() => {
+        navigation.navigate("EnterNewPassword")
+      }}
       >
-        <Text className="text-white font-semibold text-center">SUBMIT</Text>
-      </LinearGradient>
-    </View>
+        <LinearGradient
+          // Button Linear Gradient
+          colors={["#6500e0", "#b000e0"]}
+          className="py-3 mb-5"
+        >
+          <Text className="text-white font-semibold text-center">SUBMIT</Text>
+        </LinearGradient>
+      </TouchableOpacity>
+    </SafeAreaView>
   );
 }

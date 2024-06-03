@@ -5,7 +5,8 @@ import { Link } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { GgIcon } from "@/assets/icons/icon";
 import { LinearGradient } from "expo-linear-gradient";
-import { CheckBox } from '@rneui/themed';
+import { CheckBox } from "react-native-elements";
+import { Checkbox } from "native-base";
 
 const LogIn = ({navigation}:any) => {
   return (
@@ -31,17 +32,11 @@ const LogIn = ({navigation}:any) => {
           <View className="mb-10 flex justify-between items-center flex-row">
             <View className="flex flex-row items-center">
 
-            <CheckBox
-           checked={false}
-           disabled
-           iconType="material-community"
-           checkedIcon="checkbox-outline"
-           uncheckedIcon={'checkbox-blank-outline'}
-         />
+            <Checkbox aria-label="cb" value=""/>
 
               <Text className="text-neutral-500 font-light ml-2">Remember me</Text>
             </View>
-            <Text className="font-medium text-violet-600">Forgot Password ?</Text>
+            <TouchableOpacity onPress={() => navigation.navigate("EnterEmail")}><Text className="font-medium text-violet-600">Forgot Password ?</Text></TouchableOpacity>
           </View>
 
           <TouchableOpacity>
