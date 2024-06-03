@@ -12,6 +12,10 @@ import Account from "./(auth)/Account";
 import ProgressDetail from "./pages/ProgressDetail";
 import Schedule from "./pages/Schedule";
 import Tasks from "./(tabs)/Tasks";
+import CreateCommunity from "./(tabs)/CreateCommunity";
+import ComunityDetail from "./(tabs)/ComunityDetail";
+import TaskDetail from "./(tabs)/TaskDetail";
+import Community from "./(tabs)/Community";
 
 const Stack = createNativeStackNavigator();
 
@@ -67,6 +71,26 @@ const App = () => {
         <Stack.Screen
           name="Tasks"
           component={Tasks}
+          options={{ headerShown: false }}
+        />
+         <Stack.Screen
+          name="Community"
+          component={Community}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="CreateCommunity"
+          component={CreateCommunity}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="ComunityDetail"
+          component={ComunityDetail}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="TaskDetail"
+          component={TaskDetail}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>

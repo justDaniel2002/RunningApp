@@ -65,7 +65,7 @@ export default function HomePage({navigation}:any) {
 
         <View className="flex flex-row items-center justify-between">
           <Text className="text-xl font-bold mb-5">Community</Text>
-          <TouchableOpacity onPress={() => navigation.navigate("Tasks")}><Text className="font-bold text-violet-500">See all</Text></TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate("Community")}><Text className="font-bold text-violet-500">See all</Text></TouchableOpacity>
         </View>
 
         {tasksData.slice(0,2).map((item: any) => (

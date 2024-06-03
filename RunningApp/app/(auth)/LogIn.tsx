@@ -39,7 +39,9 @@ const LogIn = ({navigation}:any) => {
             <TouchableOpacity onPress={() => navigation.navigate("EnterEmail")}><Text className="font-medium text-violet-600">Forgot Password ?</Text></TouchableOpacity>
           </View>
 
-          <TouchableOpacity>
+          <TouchableOpacity
+          onPress={() => {navigation.navigate("Home")}}
+          >
             <LinearGradient
               // Button Linear Gradient
               colors={["#6500e0", "#b000e0"]}

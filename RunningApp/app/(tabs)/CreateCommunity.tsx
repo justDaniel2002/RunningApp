@@ -4,9 +4,9 @@ import { Icon } from "react-native-elements";
 import { CheckIcon, Select } from "native-base";
 import { LinearGradient } from "expo-linear-gradient";
 
-export default function CommunityDetail() {
+export default function CreateCommunity() {
   return (
-    <SafeAreaView className="py-3 px-5">
+    <SafeAreaView className="py-10 px-5">
       <Text className="text-2xl font-bold mb-10">Community</Text>
       <View className="mb-5 py-2 flex flex-row justify-between border-b">
         <Text className="text-lg font-bold">Create New Community</Text>
