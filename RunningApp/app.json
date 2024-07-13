@@ -14,7 +14,8 @@
     },
     "ios": {
       "googleServicesFile": "./GoogleService-Info.plist",
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.runningApp.runningApp"
     },
     "android": {
       "googleServicesFile": "./google-services.json",
@@ -32,18 +33,33 @@
     "plugins": [
       "expo-router",
       "@react-native-firebase/app",
+      "@react-native-firebase/auth",
       "@react-native-google-signin/google-signin",
       [
         "expo-build-properties",
         {
+          "android": {
+            "compileSdkVersion": 34,
+            "targetSdkVersion": 34,
+            "buildToolsVersion": "34.0.0"
+          },
           "ios": {
-            "useFrameworks": "static"
+            "useFrameworks": "static",
+            "deploymentTarget": "13.4"
           }
         }
       ]
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "a6dd9130-5ce4-40ec-85b1-dd9b6f6176a1"
+      }
     }
   }
 }

@@ -21,7 +21,7 @@ export const login = async(email, password) => {
     if(email && password){
         try {
             const response = await auth().createUserWithEmailAndPassword(email, password)
-            auth().
+            
             console.log(response)
         } catch (error) {
             console.log(error)
