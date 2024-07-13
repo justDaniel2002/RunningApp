@@ -1,19 +1,30 @@
-import { View, Text, ScrollView, TextInput, Button, Image, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  ScrollView,
+  TextInput,
+  Button,
+  Image,
+  TouchableOpacity,
+} from "react-native";
 import React from "react";
 import { StatusBar } from "expo-status-bar";
 import { Link, router } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { GgIcon } from "@/assets/icons/icon";
 import { LinearGradient } from "expo-linear-gradient";
+import {onGoogleButtonPress} from "../../firebase/firebase"
 
-const SignUp = ({navigation}:any) => {
+const SignUp = ({ navigation }: any) => {
   return (
     <SafeAreaView>
       <ScrollView>
         <View className="pt-20 pb-10 px-10 bg-neutral-100">
           <View className="flex justify-between mb-10 flex-row items-center">
             <Text className="text-5xl font-medium">Sign Up</Text>
-            <TouchableOpacity onPress={() => navigation.navigate('LogIn')}><Text className="text-sm font-medium">Log in</Text></TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate("LogIn")}>
+              <Text className="text-sm font-medium">Log in</Text>
+            </TouchableOpacity>
           </View>
 
           <View className="mb-5">
@@ -38,16 +49,15 @@ const SignUp = ({navigation}:any) => {
             <TextInput secureTextEntry={true} className="bg-white p-1" />
           </View>
 
-          <TouchableOpacity
-          onPress={() => navigation.navigate('LogIn')}
-          >
+          <TouchableOpacity onPress={() => navigation.navigate("LogIn")}>
             <LinearGradient
               // Button Linear Gradient
               colors={["#6500e0", "#b000e0"]}
               className="py-3 mb-5"
-              
             >
-              <Text className="text-white font-semibold text-center text-lg">LOG IN</Text>
+              <Text className="text-white font-semibold text-center text-lg">
+                LOG IN
+              </Text>
             </LinearGradient>
           </TouchableOpacity>
 
@@ -61,13 +71,15 @@ const SignUp = ({navigation}:any) => {
             </Text>
           </View>
 
-          <View className="py-3 flex justify-center flex-row bg-white">
-            <Image
-              resizeMode="contain"
-              className="w-1/12 h-5"
-              source={require("@/assets/icons/google.png")}
-            />
-          </View>
+          <TouchableOpacity onPress={onGoogleButtonPress}>
+            <View className="py-3 flex justify-center flex-row bg-white">
+              <Image
+                resizeMode="contain"
+                className="w-1/12 h-5"
+                source={require("@/assets/icons/google.png")}
+              />
+            </View>
+          </TouchableOpacity>
 
           <StatusBar style="auto" />
         </View>
