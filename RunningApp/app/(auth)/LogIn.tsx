@@ -1,5 +1,5 @@
-import { View, Text, ScrollView, TextInput, Button, Image, TouchableOpacity } from "react-native";
-import React from "react";
+import { View, Text, ScrollView, TextInput, Button, Image, TouchableOpacity, Alert } from "react-native";
+import React, { useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import { Link } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -7,8 +7,30 @@ import { GgIcon } from "@/assets/icons/icon";
 import { LinearGradient } from "expo-linear-gradient";
 import { CheckBox } from "react-native-elements";
 import { Checkbox } from "native-base";
+import { login } from "@/firebase/firebase"
 
 const LogIn = ({navigation}:any) => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const onLogin = () => {
+   
+
+    if (email.trim() == "") {
+      Alert.alert("Missing property", "Input email", [{ text: "Ok" }]);
+
+      return;
+    }
+
+    if (password.trim() == "") {
+      Alert.alert("Missing property", "Input password", [{ text: "Ok" }]);
+
+      return;
+    }
+
+
+    login(email, password)
+  };
   return (
     <SafeAreaView>
       <ScrollView>
@@ -21,12 +43,12 @@ const LogIn = ({navigation}:any) => {
 
           <View className="mb-5">
             <Text className="text-sm text-neutral-500 mb-3">Email</Text>
-            <TextInput className="bg-white p-1" />
+            <TextInput value={email} onChangeText={(text) => setEmail(text)} className="bg-white p-1" />
           </View>
 
           <View className="mb-5">
             <Text className="text-sm text-neutral-500 mb-3">Password</Text>
-            <TextInput secureTextEntry={true} className="bg-white p-1" />
+            <TextInput value={password} onChangeText={(text) => setPassword(text)} secureTextEntry={true} className="bg-white p-1" />
           </View>
 
           <View className="mb-10 flex justify-between items-center flex-row">
@@ -40,7 +62,7 @@ const LogIn = ({navigation}:any) => {
           </View>
 
           <TouchableOpacity
-          onPress={() => {navigation.navigate("Home")}}
+          onPress={onLogin}
           >
             <LinearGradient
               // Button Linear Gradient

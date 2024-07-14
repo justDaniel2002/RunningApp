@@ -15,7 +15,7 @@
     "ios": {
       "googleServicesFile": "./GoogleService-Info.plist",
       "supportsTablet": true,
-      "bundleIdentifier": "com.runningApp.runningApp"
+      "bundleIdentifier": "com.community.communityApp"
     },
     "android": {
       "googleServicesFile": "./google-services.json",
@@ -23,7 +23,7 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.runningApp.runningApp"
+      "package": "com.community.communityApp"
     },
     "web": {
       "bundler": "metro",
@@ -34,6 +34,7 @@
       "expo-router",
       "@react-native-firebase/app",
       "@react-native-firebase/auth",
+      "@react-native-firebase/crashlytics",
       "@react-native-google-signin/google-signin",
       [
         "expo-build-properties",

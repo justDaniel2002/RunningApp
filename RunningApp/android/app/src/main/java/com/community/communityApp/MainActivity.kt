@@ -1,4 +1,4 @@
-package com.runningApp.runningApp
+package com.community.communityApp
 
 import android.os.Build
 import android.os.Bundle
