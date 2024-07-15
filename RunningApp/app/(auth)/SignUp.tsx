@@ -16,7 +16,7 @@ import { GgIcon } from "@/assets/icons/icon";
 import { LinearGradient } from "expo-linear-gradient";
 import { getService, postService } from "@/api/services";
 import { get_post_put_user, loginAuth } from "@/api/apis";
-import { auth } from "@/firebase/firebase";
+import { auth, loginPopUp } from "@/firebase/firebase";
 import { useRecoilState } from "recoil";
 import { accountState } from "@/state/accountState";
 import { setAuthToken } from "@/api/axios.config";

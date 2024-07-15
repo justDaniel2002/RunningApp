@@ -1,21 +1,34 @@
-import { View, Text, Image, TextInput, TouchableOpacity, PermissionsAndroid, Alert } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  TextInput,
+  TouchableOpacity,
+  PermissionsAndroid,
+  Alert,
+} from "react-native";
 import React, { useState } from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import { useRecoilState } from "recoil";
 import { accountState } from "@/state/accountState";
-import * as ImagePicker from 'expo-image-picker';
-import { multipartService, postService } from "@/api/services";
+import * as ImagePicker from "expo-image-picker";
+import {
+  deleteService,
+  multipartService,
+  multipartServicePUT,
+  postService,
+} from "@/api/services";
 import { get_post_put_activities } from "@/api/apis";
 
-export default function ComunityDetail({ navigation, route }: any) {
-  const { community } = route.params;
+export default function EditTask({ navigation, route }: any) {
+  const { community, task } = route.params;
   const [account, setAccount]: any = useRecoilState(accountState);
-  const [description, setDescription] = useState("")
-  const [image, setImage]:any = useState();
+  const [description, setDescription] = useState(task?.description ?? "");
+  const [image, setImage]: any = useState();
 
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
-    let result:any = await ImagePicker.launchImageLibraryAsync({
+    let result: any = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
       aspect: [4, 3],
@@ -29,31 +42,39 @@ export default function ComunityDetail({ navigation, route }: any) {
     }
   };
 
-  const onPost = async () => {
-    if(!image){
-      Alert.alert("Missing property", "Set image", [{ text: "Ok" }]);
+  const onPut = async () => {
+   
 
-      return;
-    }
-
-    if(description.trim() == ''){
+    if (description.trim() == "") {
       Alert.alert("Missing property", "Input description", [{ text: "Ok" }]);
 
       return;
     }
-    const formData = new FormData()
-    formData.append("CommunityId",community?.id)
-    formData.append("Description", description)
-    formData.append("ImageFile", {
-      uri: image.uri,
-      name: 'photo.jpg',
-      type: 'image/jpeg'
-    })
-    console.log("call api")
-    multipartService(get_post_put_activities, formData).then(((res) => {
-      navigation.navigate('TaskDetail',{community})
-    })).catch(error => console.log(JSON.stringify(error)))
-  }
+    const formData = new FormData();
+    formData.append("id", task?.id);
+    formData.append("Description", description);
+    if (image) {
+      formData.append("ImageFile", {
+        uri: image.uri,
+        name: "photo.jpg",
+        type: "image/jpeg",
+      });
+    }
+    console.log("call api");
+    multipartServicePUT(get_post_put_activities, formData, [task?.id])
+      .then((res) => {
+        navigation.navigate("TaskDetail", { community });
+      })
+      .catch((error) => console.log(JSON.stringify(error)));
+  };
+
+  const onDelete = async () => {
+    deleteService(get_post_put_activities, {}, [task?.id])
+      .then((res) => {
+        navigation.navigate("TaskDetail", { community });
+      })
+      .catch((error) => console.log(JSON.stringify(error)));
+  };
   return (
     <View className="pt-16 px-5 bg-white min-h-screen">
       <Text className="text-3xl font-bold mb-1">Hoạt động của bạn</Text>
@@ -76,9 +97,20 @@ export default function ComunityDetail({ navigation, route }: any) {
         value={description}
         onChangeText={(text) => setDescription(text)}
       />
-       {image && <Image resizeMode="contain"
-        className="w-full h-52 mb-10" source={{ uri: image.uri }} />}
-      
+      {image ? (
+        <Image
+          resizeMode="contain"
+          className="w-full h-52 mb-10"
+          source={{ uri: image.uri }}
+        />
+      ) : (
+        <Image
+          resizeMode="contain"
+          className="w-full h-52 mb-10"
+          source={{ uri: task?.imageUrl }}
+        />
+      )}
+
       <TouchableOpacity onPress={pickImage}>
         <LinearGradient
           // Button Linear Gradient
@@ -91,14 +123,26 @@ export default function ComunityDetail({ navigation, route }: any) {
         </LinearGradient>
       </TouchableOpacity>
 
-      <TouchableOpacity onPress={onPost}>
+      <TouchableOpacity onPress={onPut}>
         <LinearGradient
           // Button Linear Gradient
           colors={["#6500e0", "#b000e0"]}
           className="py-3 mb-5"
         >
           <Text className="text-white font-semibold text-center text-lg">
-            Verify your task
+            Update your task
+          </Text>
+        </LinearGradient>
+      </TouchableOpacity>
+
+      <TouchableOpacity onPress={onDelete}>
+        <LinearGradient
+          // Button Linear Gradient
+          colors={["#6500e0", "#b000e0"]}
+          className="py-3 mb-5"
+        >
+          <Text className="text-white font-semibold text-center text-lg">
+            Remove your task
           </Text>
         </LinearGradient>
       </TouchableOpacity>

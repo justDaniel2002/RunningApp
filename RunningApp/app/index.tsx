@@ -17,6 +17,8 @@ import ComunityDetail from "./(tabs)/ComunityDetail";
 import TaskDetail from "./(tabs)/TaskDetail";
 import Community from "./(tabs)/Community";
 import { RecoilRoot } from "recoil";
+import EditTask from "./(tabs)/EditTask";
+import EditCommunity from "./(tabs)/EditCommunity";
 
 const Stack = createNativeStackNavigator();
 
@@ -93,6 +95,17 @@ const App = () => {
           <Stack.Screen
             name="TaskDetail"
             component={TaskDetail}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="EditTask"
+            component={EditTask}
+            options={{ headerShown: false }}
+          />
+
+          <Stack.Screen
+            name="EditCommunity"
+            component={EditCommunity}
             options={{ headerShown: false }}
           />
         </Stack.Navigator>

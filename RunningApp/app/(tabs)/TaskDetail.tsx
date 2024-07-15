@@ -12,18 +12,28 @@ import { LinearGradient } from "expo-linear-gradient";
 
 import { comments } from "@/constants/data";
 import { Icon } from "react-native-elements";
-import { getService } from "@/api/services";
+import { getService, postService } from "@/api/services";
 import { get_post_put_activities } from "@/api/apis";
+import { useRecoilState } from "recoil";
+import { accountState } from "@/state/accountState";
 
 export default function TaskDetail({ navigation, route }: any) {
-  const { communityId } = route.params;
-  const [tasks, setTasks] = useState([]);
+  const { community } = route.params;
+  const [tasks, setTasks]: any = useState([]);
+  const [account, setAccount]: any = useRecoilState(accountState);
 
+  const like = async (id: string) => {
+    postService(`${get_post_put_activities}/${id}/members`).then((res) => {
+      getService(
+        `${get_post_put_activities}?communityId=${community?.id}`
+      ).then((result) => setTasks(result));
+    });
+  };
   useEffect(() => {
-    getService(`${get_post_put_activities}?communityId=${communityId}`)
+    getService(`${get_post_put_activities}?communityId=${community?.id}`)
       .then((result) => setTasks(result))
-      .catch((res) => {
-        console.log(res);
+      .catch((error) => {
+        console.log(error);
       });
   }, [navigation, route]);
   return (
@@ -36,7 +46,7 @@ export default function TaskDetail({ navigation, route }: any) {
             source={require("@/assets/icons/running.png")}
           />
           <Text className="text-2xl font-bold text-neutral-500">
-            Chạy bộ mỗi sáng.
+            {community?.groupName}.
           </Text>
           <View></View>
         </View>
@@ -51,8 +61,9 @@ export default function TaskDetail({ navigation, route }: any) {
             className="bg-neutral-300 w-3/5 rounded-xl px-2 mr-1"
             placeholder="How are yout today...?"
           />
-          <TouchableOpacity onPress={() => navigation.navigate("ComunityDetail")}>
-            
+          <TouchableOpacity
+            onPress={() => navigation.navigate("ComunityDetail", { community })}
+          >
             <LinearGradient
               // Button Linear Gradient
               colors={["#6500e0", "#b000e0"]}
@@ -76,14 +87,26 @@ export default function TaskDetail({ navigation, route }: any) {
                     source={require("@/assets/icons/fitness.png")}
                   />
                   <View>
-                    <Text className="font-bold mb-1">Ms. Lina</Text>
+                    <Text className="font-bold mb-1">
+                      {task?.createdBy == account?.user?.id
+                        ? "You"
+                        : "Anonymos"}
+                    </Text>
                     <Text className="text-sm font-bold text-neutral-500">
                       2 hours ago
                     </Text>
                   </View>
                 </View>
 
-                <Icon name="more-horiz" />
+                {task?.createdBy == account?.user?.id && (
+                  <TouchableOpacity
+                    onPress={() =>
+                      navigation.navigate("EditTask", { community, task })
+                    }
+                  >
+                    <Icon name="more-horiz" />
+                  </TouchableOpacity>
+                )}
               </View>
 
               <View className="flex flex-row justify-between items-center">
@@ -100,10 +123,16 @@ export default function TaskDetail({ navigation, route }: any) {
               />
             </View>
             <View className="mb-5 border-b border-t py-1 flex flex-row items-center justify-between">
-              <View className="flex flex-row items-center">
-                <Icon name="thumb-up" className="mr-1" />
-                <Text>{task?.postLikes?.length}</Text>
-              </View>
+              <TouchableOpacity onPress={() => like(task?.id)}>
+                <View className="flex flex-row items-center">
+                  <Icon
+                    name="thumb-up"
+                    className="mr-1"
+                    color={`${task?.isLiked ? "blue" : "black"}`}
+                  />
+                  <Text>{task?.postLikes?.length}</Text>
+                </View>
+              </TouchableOpacity>
 
               {/* <View className="flex flex-row items-center">
             <Icon name="chat-bubble" className="mr-1" />

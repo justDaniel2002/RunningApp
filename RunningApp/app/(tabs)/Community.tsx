@@ -11,7 +11,7 @@ import React, { useEffect, useState } from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import { CheckIcon, Icon, Select } from "native-base";
 import { tasksData2 } from "@/constants/data";
-import { getService } from "@/api/services";
+import { deleteService, getService } from "@/api/services";
 import { get_post_put_communities } from "@/api/apis";
 import { useRecoilState } from "recoil";
 import { accountState } from "@/state/accountState";
@@ -74,7 +74,7 @@ export default function Community({ navigation }: any) {
 
         {communities.map((task: any) => (
           <TouchableOpacity
-            onPress={() =>navigation.navigate('TaskDetail',{communityId: task.id})}
+            onPress={() =>navigation.navigate('TaskDetail',{community: task})}
             className="mb-5 py-2 px-3 bg-neutral-200 rounded-xl flex flex-row justify-between items-center"
           >
             <View className="flex flex-row items-center">
@@ -88,12 +88,18 @@ export default function Community({ navigation }: any) {
                 <Text>{task.numOfMember} members</Text>
               </View>
             </View>
-            {task?.createdBy == account?.user?.id &&  <Text className={`px-2 py-1 rounded-full text-white bg-green-600`}>
+            {task?.createdBy == account?.user?.id &&  <TouchableOpacity onPress={() => navigation.navigate("EditCommunity",{community: task})}>
+              <Text className={`px-2 py-1 rounded-full text-white bg-green-600`}>
               Edit
-            </Text>}
-            {task?.createdBy == account?.user?.id &&  <Text className={`px-2 py-1 rounded-full text-white bg-red-600`}>
+            </Text></TouchableOpacity>}
+            {task?.createdBy == account?.user?.id &&  <TouchableOpacity onPress={() => {
+              deleteService(`${get_post_put_communities}`,{},[task?.id]).then(() => {
+                getService(get_post_put_communities).then(res => setCommunities(res))
+              })
+            }}>
+              <Text className={`px-2 py-1 rounded-full text-white bg-red-600`}>
               Delete
-            </Text>}
+            </Text></TouchableOpacity>}
             <Text className={`px-2 py-1 rounded-full text-white bg-indigo-600`}>
               Join
             </Text>

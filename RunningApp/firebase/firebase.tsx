@@ -2,7 +2,7 @@
 
 import { initializeApp } from "@firebase/app";
 
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, signInWithPopup, GoogleAuthProvider  } from '@firebase/auth';
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, signInWithPopup, GoogleAuthProvider, signInWithRedirect  } from '@firebase/auth';
 const firebaseConfig = {
   apiKey: "AIzaSyAEkdSBfGLPyhRr9eqiSFNcrP02NNLI3Kg",
   authDomain: "communityproject-7fbb6.firebaseapp.com",
@@ -24,6 +24,8 @@ auth.onAuthStateChanged( (user) => {
     }
     
   })
+
+export const logOut = async() => await signOut(auth);
 
 export const register = async(email:string, password:string) => {
     if(email && password){
@@ -50,7 +52,7 @@ export const login = async(email:string, password:string) => {
 
 export const loginPopUp = async() => {
     const provider = new GoogleAuthProvider()
-    const response = await signInWithPopup(auth, provider)
+    const response = await signInWithPopup(auth, provider).catch(res => console.log(res))
 }
 
 // export async function onGoogleButtonPress() {

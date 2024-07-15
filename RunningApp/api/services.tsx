@@ -32,4 +32,13 @@ export const multipartService = async (url: string, formData: FormData, params?:
   return result.data;
 };
 
+export const multipartServicePUT = async (url: string, formData: FormData, params?: string[]): Promise<any> => {
+  const result = await instance.put(generateURL(url, params), formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
+  return result.data;
+};
+
 const generateURL = (url:string, params:string[]|undefined) =>  `${url}${params?`${params.map((param) => `/${param}`)}`:``}`

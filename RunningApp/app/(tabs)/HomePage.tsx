@@ -8,12 +8,12 @@ import {
   TouchableOpacity,
 } from "react-native";
 import React, { useEffect, useState } from "react";
-import { Link } from "expo-router";
+import { Link, useFocusEffect } from "expo-router";
 import { LinearGradient } from "expo-linear-gradient";
 import { ProgressChart } from "react-native-chart-kit";
 import { tasksData } from "@/constants/data";
 import { Icon } from "react-native-elements";
-import { getService } from "@/api/services";
+import { deleteService, getService } from "@/api/services";
 import { get_post_put_communities } from "@/api/apis";
 import { useRecoilState } from "recoil";
 import { accountState } from "@/state/accountState";
@@ -29,13 +29,14 @@ const chartConfig = {
   useShadowColorFromDataset: false, // optional
 };
 
-export default function HomePage({navigation}:any) {
+export default function HomePage({navigation, route}:any) {
   const [communities, setCommunities] = useState([])
   const [account, setAccount]:any = useRecoilState(accountState)
 
-  useEffect(() => {
+  
+  useFocusEffect(() => {
     getService(get_post_put_communities).then(res => setCommunities(res))
-  },[navigation])
+  })
   return (
     <SafeAreaView className="px-3 py-16">
       <ScrollView>
@@ -80,7 +81,7 @@ export default function HomePage({navigation}:any) {
 
         {communities.slice(0,2).map((task: any) => (
           <TouchableOpacity
-            onPress={() => navigation.navigate('TaskDetail',{communityId: task.id})}
+            onPress={() => navigation.navigate('TaskDetail',{community: task})}
             className="mb-5 py-2 px-3 bg-neutral-200 rounded-xl flex flex-row justify-between items-center"
           >
             <View className="flex flex-row items-center">
@@ -94,12 +95,18 @@ export default function HomePage({navigation}:any) {
                 <Text>{task.numOfMember} members</Text>
               </View>
             </View>
-            {task?.createdBy == account?.user?.id &&  <Text className={`px-2 py-1 rounded-full text-white bg-green-600`}>
+            {task?.createdBy == account?.user?.id &&  <TouchableOpacity onPress={() => navigation.navigate("EditCommunity",{community: task})}>
+              <Text className={`px-2 py-1 rounded-full text-white bg-green-600`}>
               Edit
-            </Text>}
-            {task?.createdBy == account?.user?.id &&  <Text className={`px-2 py-1 rounded-full text-white bg-red-600`}>
+            </Text></TouchableOpacity>}
+            {task?.createdBy == account?.user?.id &&  <TouchableOpacity onPress={() => {
+              deleteService(`${get_post_put_communities}`,{},[task?.id]).then(() => {
+                getService(get_post_put_communities).then(res => setCommunities(res))
+              })
+            }}>
+              <Text className={`px-2 py-1 rounded-full text-white bg-red-600`}>
               Delete
-            </Text>}
+            </Text></TouchableOpacity>}
             <Text className={`px-2 py-1 rounded-full text-white bg-indigo-600`}>
               Join
             </Text>
