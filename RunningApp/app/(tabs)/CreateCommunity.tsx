@@ -1,10 +1,58 @@
-import { View, Text, SafeAreaView, TextInput, TouchableOpacity } from "react-native";
-import React from "react";
+import {
+  View,
+  Text,
+  SafeAreaView,
+  TextInput,
+  TouchableOpacity,
+  Alert,
+} from "react-native";
+import React, { useState } from "react";
 import { Icon } from "react-native-elements";
 import { CheckIcon, Select } from "native-base";
 import { LinearGradient } from "expo-linear-gradient";
+import { multipartService, postService } from "@/api/services";
+import { get_post_put_communities } from "@/api/apis";
 
 export default function CreateCommunity() {
+  const [GroupName, setGroupName] = useState("");
+  const [GroupGoal, setGroupGoal] = useState("");
+  const [HabitType, setHabitType] = useState("Education");
+  const [Period, setPeriod] = useState("1");
+
+  const create = () => {
+    if(GroupName.trim()==''){
+      Alert.alert("Missing property", "Input group name", [{ text: "Ok" }]);
+
+      return;
+    }
+
+    if(GroupGoal.trim()==''){
+      Alert.alert("Missing property", "Input group goal", [{ text: "Ok" }]);
+
+      return;
+    }
+
+
+    if(GroupName.trim()==''){
+      Alert.alert("Missing property", "Input group name", [{ text: "Ok" }]);
+
+      return;
+    }
+
+    if(GroupName.trim()==''){
+      Alert.alert("Missing property", "Input group name", [{ text: "Ok" }]);
+
+      return;
+    }
+    const formData = new FormData();
+    formData.append('GroupName',GroupName)
+    formData.append('GroupGoal',GroupGoal)
+    formData.append('HabitType',HabitType)
+    formData.append('Period',Period)
+    multipartService(get_post_put_communities, formData).then((res) => {
+      Alert.alert("Notification", "Create Community Success", [{ text: "Ok" }]);
+    })
+  }
   return (
     <SafeAreaView className="py-10 px-5">
       <Text className="text-2xl font-bold mb-10">Community</Text>
@@ -14,13 +62,23 @@ export default function CreateCommunity() {
       </View>
 
       <Text className="mb-1">Group goal</Text>
-      <TextInput className="mb-3 border border-neutral-300 p-2"/>
+      <TextInput
+        value={GroupGoal}
+        onChangeText={(text) => setGroupGoal(text)}
+        className="mb-3 border border-neutral-300 p-2"
+      />
       <Text className="mb-1">Group name</Text>
-      <TextInput className="mb-3 border border-neutral-300 p-2"/>
+      <TextInput
+        value={GroupName}
+        onChangeText={(text) => setGroupName(text)}
+        className="mb-3 border border-neutral-300 p-2"
+      />
 
       <View className="mb-3 flex flex-row justify-between items-center">
         <Text>Period</Text>
         <Select
+          selectedValue={Period}
+          onValueChange={(value) => setPeriod(value)}
           shadow={2}
           minWidth="150"
           accessibilityLabel="1 Month (30 Days)"
@@ -30,22 +88,19 @@ export default function CreateCommunity() {
             endIcon: <CheckIcon size="5" />,
           }}
         >
-          <Select.Item shadow={2} label="UX Research" value="ux" />
-          <Select.Item shadow={2} label="Web Development" value="web" />
-          <Select.Item
-            shadow={2}
-            label="Cross Platform Development"
-            value="cross"
-          />
-          <Select.Item shadow={2} label="UI Designing" value="ui" />
-          <Select.Item shadow={2} label="Backend Development" value="backend" />
+          <Select.Item shadow={2} label="1 Month (30 Days)" value="1" />
+          <Select.Item shadow={2} label="3 Month (90 Days)" value="3" />
+          <Select.Item shadow={2} label="6 Month (180 Days)" value="6" />
+          <Select.Item shadow={2} label="9 Month (270 Days)" value="9" />
+          <Select.Item shadow={2} label="12 Month (360 Days)" value="12" />
         </Select>
-
       </View>
 
       <View className="mb-10 flex flex-row justify-between items-center">
         <Text>Habit Type</Text>
         <Select
+          selectedValue={HabitType}
+          onValueChange={(value) => setHabitType(value)}
           shadow={2}
           minWidth="150"
           accessibilityLabel="Education"
@@ -55,30 +110,25 @@ export default function CreateCommunity() {
             endIcon: <CheckIcon size="5" />,
           }}
         >
-          <Select.Item shadow={2} label="UX Research" value="ux" />
-          <Select.Item shadow={2} label="Web Development" value="web" />
-          <Select.Item
-            shadow={2}
-            label="Cross Platform Development"
-            value="cross"
-          />
-          <Select.Item shadow={2} label="UI Designing" value="ui" />
-          <Select.Item shadow={2} label="Backend Development" value="backend" />
+          <Select.Item shadow={2} label="Education" value="Education" />
+          <Select.Item shadow={2} label="Health" value="Health" />
+          <Select.Item shadow={2} label="Physic" value="Physic" />
+          <Select.Item shadow={2} label="Knowledge" value="Knowledge" />
+          <Select.Item shadow={2} label="Mental" value="Mental" />
         </Select>
-
       </View>
 
-      <TouchableOpacity
-          >
-            <LinearGradient
-              // Button Linear Gradient
-              colors={["#6500e0", "#b000e0"]}
-              className="py-3 mb-5"
-              
-            >
-              <Text className="text-white font-semibold text-center text-lg">CREATE NEW GROUP</Text>
-            </LinearGradient>
-          </TouchableOpacity>
+      <TouchableOpacity onPress={create}>
+        <LinearGradient
+          // Button Linear Gradient
+          colors={["#6500e0", "#b000e0"]}
+          className="py-3 mb-5"
+        >
+          <Text className="text-white font-semibold text-center text-lg">
+            CREATE NEW GROUP
+          </Text>
+        </LinearGradient>
+      </TouchableOpacity>
     </SafeAreaView>
   );
 }

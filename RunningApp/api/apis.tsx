@@ -7,3 +7,5 @@
 
  const communities = "communities"
  export const get_post_put_communities = `${communities}`
+
+ export const loginAuth = "auths"

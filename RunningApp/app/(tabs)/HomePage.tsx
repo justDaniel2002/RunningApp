@@ -7,12 +7,16 @@ import {
   ScrollView,
   TouchableOpacity,
 } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "expo-router";
 import { LinearGradient } from "expo-linear-gradient";
 import { ProgressChart } from "react-native-chart-kit";
 import { tasksData } from "@/constants/data";
 import { Icon } from "react-native-elements";
+import { getService } from "@/api/services";
+import { get_post_put_communities } from "@/api/apis";
+import { useRecoilState } from "recoil";
+import { accountState } from "@/state/accountState";
 
 const chartConfig = {
   backgroundGradientFrom: "transparent",
@@ -26,12 +30,18 @@ const chartConfig = {
 };
 
 export default function HomePage({navigation}:any) {
+  const [communities, setCommunities] = useState([])
+  const [account, setAccount]:any = useRecoilState(accountState)
+
+  useEffect(() => {
+    getService(get_post_put_communities).then(res => setCommunities(res))
+  },[navigation])
   return (
     <SafeAreaView className="px-3 py-16">
       <ScrollView>
         <Text className="text-sm mb-1 font-medium">Sun, 1 March 2022</Text>
         <Text className="text-3xl mb-5">
-          Hello, <Text className="text-violet-700">Thịnh!</Text>
+          Hello, <Text className="text-violet-700">{account?.user?.name}!</Text>
         </Text>
         <LinearGradient
           // Button Linear Gradient
@@ -68,27 +78,32 @@ export default function HomePage({navigation}:any) {
           <TouchableOpacity onPress={() => navigation.navigate("Community")}><Text className="font-bold text-violet-500">See all</Text></TouchableOpacity>
         </View>
 
-        {tasksData.slice(0,2).map((item: any) => (
-          <View className="bg-green-100 px-1 py-3 mb-5 flex flex-row justify-between">
+        {communities.slice(0,2).map((task: any) => (
+          <TouchableOpacity
+            onPress={() => navigation.navigate('TaskDetail',{communityId: task.id})}
+            className="mb-5 py-2 px-3 bg-neutral-200 rounded-xl flex flex-row justify-between items-center"
+          >
             <View className="flex flex-row items-center">
               <Image
                 resizeMode="contain"
-                className="mr-2 w-10 h-5"
-                source={item.icon}
+                className="w-12 h-7 mr-3"
+                source={require("@/assets/icons/book.png")}
               />
               <View>
-                <Text className="font-medium mb-2">{item.name}</Text>
-                <Text>{item.members} members</Text>
+                <Text className="font-bold mb-2">{task.groupName}</Text>
+                <Text>{task.numOfMember} members</Text>
               </View>
             </View>
-
-            <View className="flex flex-row items-center">
-              <Text className="text-white rounded-full px-1 py-2 bg-indigo-700 mr-4">
-                View
-              </Text>
-              <Icon name="more-vert" />
-            </View>
-          </View>
+            {task?.createdBy == account?.user?.id &&  <Text className={`px-2 py-1 rounded-full text-white bg-green-600`}>
+              Edit
+            </Text>}
+            {task?.createdBy == account?.user?.id &&  <Text className={`px-2 py-1 rounded-full text-white bg-red-600`}>
+              Delete
+            </Text>}
+            <Text className={`px-2 py-1 rounded-full text-white bg-indigo-600`}>
+              Join
+            </Text>
+          </TouchableOpacity>
         ))}
       </ScrollView>
     </SafeAreaView>

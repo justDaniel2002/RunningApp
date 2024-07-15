@@ -8,19 +8,35 @@ import {
   TouchableOpacity,
   Alert,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import { Link, router } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { GgIcon } from "@/assets/icons/icon";
 import { LinearGradient } from "expo-linear-gradient";
-import { postService } from "@/api/services";
-import { get_post_put_user } from "@/api/apis";
+import { getService, postService } from "@/api/services";
+import { get_post_put_user, loginAuth } from "@/api/apis";
+import { auth } from "@/firebase/firebase";
+import { useRecoilState } from "recoil";
+import { accountState } from "@/state/accountState";
+import { setAuthToken } from "@/api/axios.config";
 const SignUp = ({ navigation }: any) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setRepassword] = useState("");
+  const [account, setAccount] = useRecoilState(accountState)
+
+  useEffect(() => {
+    const currenUser:any = auth.currentUser
+    if(currenUser){
+      getService(`${loginAuth}?token=${currenUser?.stsTokenManager?.accessToken}`).then(result => {
+        setAccount(result)
+        setAuthToken(result?.accessToken)
+      })
+      navigation.navigate('Home')
+    }
+  },[])
 
   const onSignUp = () => {
     if (name.trim() == "") {

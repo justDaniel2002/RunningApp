@@ -16,85 +16,88 @@ import CreateCommunity from "./(tabs)/CreateCommunity";
 import ComunityDetail from "./(tabs)/ComunityDetail";
 import TaskDetail from "./(tabs)/TaskDetail";
 import Community from "./(tabs)/Community";
+import { RecoilRoot } from "recoil";
 
 const Stack = createNativeStackNavigator();
 
 const App = () => {
   return (
-    <NavigationContainer independent={true}>
-      <Stack.Navigator>
-        <Stack.Screen
-          name="SignUp"
-          component={SignUp}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="LogIn"
-          component={LogIn}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="EnterEmail"
-          component={EnterEmail}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="EnterOTP"
-          component={EnterOTP}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="EnterNewPassword"
-          component={EnterNewPassword}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="Home"
-          component={Home}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="Account"
-          component={Account}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="ProgressDetail"
-          component={ProgressDetail}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="Schedule"
-          component={Schedule}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="Tasks"
-          component={Tasks}
-          options={{ headerShown: false }}
-        />
-         <Stack.Screen
-          name="Community"
-          component={Community}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="CreateCommunity"
-          component={CreateCommunity}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="ComunityDetail"
-          component={ComunityDetail}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="TaskDetail"
-          component={TaskDetail}
-          options={{ headerShown: false }}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <RecoilRoot>
+      <NavigationContainer independent={true}>
+        <Stack.Navigator>
+          <Stack.Screen
+            name="SignUp"
+            component={SignUp}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="LogIn"
+            component={LogIn}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="EnterEmail"
+            component={EnterEmail}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="EnterOTP"
+            component={EnterOTP}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="EnterNewPassword"
+            component={EnterNewPassword}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Home"
+            component={Home}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Account"
+            component={Account}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="ProgressDetail"
+            component={ProgressDetail}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Schedule"
+            component={Schedule}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Tasks"
+            component={Tasks}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Community"
+            component={Community}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="CreateCommunity"
+            component={CreateCommunity}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="ComunityDetail"
+            component={ComunityDetail}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="TaskDetail"
+            component={TaskDetail}
+            options={{ headerShown: false }}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </RecoilRoot>
   );
 };
 

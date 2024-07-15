@@ -1,5 +1,5 @@
 import { View, Text, ScrollView, TextInput, Button, Image, TouchableOpacity, Alert } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import { Link } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -7,11 +7,17 @@ import { GgIcon } from "@/assets/icons/icon";
 import { LinearGradient } from "expo-linear-gradient";
 import { CheckBox } from "react-native-elements";
 import { Checkbox } from "native-base";
-import { login } from "@/firebase/firebase"
+import { getService, postService } from "@/api/services";
+import { loginAuth } from "@/api/apis";
+import { auth, login, loginPopUp } from "../../firebase/firebase"
+import { useRecoilState } from "recoil";
+import { accountState } from "@/state/accountState";
+import { setAuthToken } from "@/api/axios.config";
 
 const LogIn = ({navigation}:any) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [account, setAccount] = useRecoilState(accountState)
 
   const onLogin = () => {
    
@@ -28,9 +34,23 @@ const LogIn = ({navigation}:any) => {
       return;
     }
 
-
-    login(email, password)
+    console.log("login")
+    login(email, password).then((res:any) => {
+      //console.log(`${JSON.stringify(res?.user)}`)
+      getService(`${loginAuth}?token=${res?.user?.stsTokenManager?.accessToken}`).then(result => {
+        console.log('get user info',result)
+        setAccount(result)
+        setAuthToken(result?.accessToken)
+        navigation.navigate('Home')
+      })
+    })
   };
+
+  useEffect(() => {
+    if(auth.currentUser){
+      navigation.navigate('Home')
+    }
+  },[])
   return (
     <SafeAreaView>
       <ScrollView>
@@ -85,6 +105,7 @@ const LogIn = ({navigation}:any) => {
             </Text>
           </View>
 
+          <TouchableOpacity onPress={loginPopUp}>
           <View className="py-3 flex justify-center flex-row bg-white">
             <Image
               resizeMode="contain"
@@ -92,6 +113,7 @@ const LogIn = ({navigation}:any) => {
               source={require("@/assets/icons/google.png")}
             />
           </View>
+          </TouchableOpacity>
 
           <StatusBar style="auto" />
         </View>
