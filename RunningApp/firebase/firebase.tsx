@@ -1,6 +1,5 @@
 import { initializeApp } from "@firebase/app";
 // import { getAnalytics, logEvent } from "@firebase/analytics";
-import * as Anlytics from 'expo-firebase-analytics';
 
 import {
   getAuth,
