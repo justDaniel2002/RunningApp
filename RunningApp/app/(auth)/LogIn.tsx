@@ -1,7 +1,7 @@
 import { View, Text, ScrollView, TextInput, Button, Image, TouchableOpacity, Alert } from "react-native";
 import React, { useEffect, useState } from "react";
 import { StatusBar } from "expo-status-bar";
-import { Link } from "expo-router";
+import { Link, useFocusEffect } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { GgIcon } from "@/assets/icons/icon";
 import { LinearGradient } from "expo-linear-gradient";
@@ -46,11 +46,11 @@ const LogIn = ({navigation}:any) => {
     })
   };
 
-  useEffect(() => {
+  useFocusEffect(() => {
     if(auth.currentUser){
       navigation.navigate('Home')
     }
-  },[])
+  })
   return (
     <SafeAreaView>
       <ScrollView>

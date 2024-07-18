@@ -28,7 +28,18 @@
     "web": {
       "bundler": "metro",
       "output": "static",
-      "favicon": "./assets/images/favicon.png"
+      "favicon": "./assets/images/favicon.png",
+      "config": {
+        "firebase": {
+          "apiKey": "AIzaSyAEkdSBfGLPyhRr9eqiSFNcrP02NNLI3Kg",
+          "authDomain": "communityproject-7fbb6.firebaseapp.com",
+          "projectId": "communityproject-7fbb6",
+          "storageBucket": "communityproject-7fbb6.appspot.com",
+          "messagingSenderId": "638313013859",
+          "appId": "1:638313013859:web:88570ec76c0267c1800e56",
+          "measurementId": "G-TD72CMVDQ7"
+        }
+      }
     },
     "plugins": [
       "expo-router",

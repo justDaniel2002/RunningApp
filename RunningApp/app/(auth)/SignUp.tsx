@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { StatusBar } from "expo-status-bar";
-import { Link, router } from "expo-router";
+import { Link, router, useFocusEffect } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { GgIcon } from "@/assets/icons/icon";
 import { LinearGradient } from "expo-linear-gradient";
@@ -27,7 +27,7 @@ const SignUp = ({ navigation }: any) => {
   const [confirmPassword, setRepassword] = useState("");
   const [account, setAccount] = useRecoilState(accountState)
 
-  useEffect(() => {
+  useFocusEffect(() => {
     const currenUser:any = auth.currentUser
     if(currenUser){
       getService(`${loginAuth}?token=${currenUser?.stsTokenManager?.accessToken}`).then(result => {
@@ -36,7 +36,7 @@ const SignUp = ({ navigation }: any) => {
       })
       navigation.navigate('Home')
     }
-  },[])
+  })
 
   const onSignUp = () => {
     if (name.trim() == "") {
@@ -69,8 +69,16 @@ const SignUp = ({ navigation }: any) => {
       .then((res) => {
         console.log(res);
         navigation.navigate("LogIn")
+        Alert.alert("Notification", "Đăng ký thành công", [
+          { text: "Ok" },
+        ]);
       })
-      .catch((res) => console.log(res));
+      .catch((error) => {
+        console.log(error);
+        Alert.alert("Error", "Đăng ký thất bại", [
+          { text: "Ok" },
+        ]);
+      });
   };
   return (
     <SafeAreaView>
